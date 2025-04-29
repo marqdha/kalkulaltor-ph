@@ -1,53 +1,30 @@
 import streamlit as st
-import time
 
-# Fungsi untuk menampilkan tampilan awal
-def show_intro():
-    st.title("Selamat Datang di Total Plate Count Calculator")
-    st.write("Hitung Total Koloni Bakteri Anda dengan Mudah!")
-    
-    # Menampilkan gambar (pastikan Anda memiliki gambar di direktori yang sama)
-    st.image("lab-background.jpg", use_column_width=True)
-    
-    # Menampilkan tombol untuk melanjutkan ke kalkulator
-    if st.button("Masuk ke Kalkulator"):
-        return True
-    return False
+# Judul aplikasi
+st.title("Perhitungan Total Plate Count (TPC)")
 
-# Fungsi untuk menampilkan kalkulator
-def show_calculator():
-    st.title("Total Plate Count Calculator")
+# Deskripsi aplikasi
+st.write("""
+Aplikasi ini digunakan untuk menghitung Total Plate Count (TPC) berdasarkan jumlah koloni yang terhitung,
+faktor pengenceran, dan banyaknya faktor pengenceran. 
+Standar jumlah koloni yang diterima untuk perhitungan adalah antara 25 hingga 250 koloni.
+Silakan masukkan nilai di bawah ini untuk melakukan perhitungan.
+""")
 
-    # Input untuk jumlah koloni
-    colony_count = st.number_input("Jumlah Koloni:", min_value=0, step=1)
+# Input jumlah koloni
+jumlah_koloni = st.number_input("Masukkan Jumlah Koloni (25-250):", min_value=0, step=1)
 
-    # Input untuk volume sampel
-    sample_volume = st.number_input("Volume Sampel (mL):", min_value=0.0, step=0.1)
+# Input faktor pengenceran
+faktor_pengenceran = st.number_input("Masukkan Faktor Pengenceran:", min_value=1, step=1)
 
-    # Tombol untuk menghitung
-    if st.button("Hitung"):
-        # Menampilkan animasi loading
-        with st.spinner("Menghitung..."):
-            time.sleep(2)  # Simulasi waktu pemrosesan
-            if sample_volume > 0:
-                total_plate_count = colony_count / sample_volume
-                st.success(f"Hasil: Total Plate Count adalah {total_plate_count:.2f} koloni/mL")
-            else:
-                st.error("Volume sampel harus lebih besar dari 0.")
+# Input banyaknya faktor pengenceran
+banyak_faktor_pengenceran = st.number_input("Masukkan Banyaknya Faktor Pengenceran:", min_value=1, step=1)
 
-    # Informasi tambahan
-    st.write("### Apa itu Total Plate Count?")
-    st.write("Total Plate Count (TPC) adalah metode untuk menghitung jumlah koloni mikroorganisme dalam sampel.")
-
-    st.write("### Tips untuk Penghitungan yang Akurat:")
-    st.write("- Pastikan untuk menghitung koloni dengan hati-hati.")
-    st.write("- Gunakan volume sampel yang tepat untuk hasil yang akurat.")
-
-    # Footer
-    st.write("Kontak: info@tpccalculator.com")
-    st.write("© 2023 TPC Calculator. Semua hak dilindungi.")
-
-# Menampilkan tampilan awal
-if show_intro():
-    # Jika tombol ditekan, tampilkan kalkulator
-    show_calculator()
+# Tombol untuk menghitung TPC
+if st.button("Hitung TPC"):
+    if 25 <= jumlah_koloni <= 250:
+        # Menghitung TPC
+        tpc = (jumlah_koloni * faktor_pengenceran) / banyak_faktor_pengenceran
+        st.success(f"Total Plate Count (TPC): {tpc:.2f} CFU/mL")
+    else:
+        st.error("Jumlah koloni harus antara 25 dan 250.")
